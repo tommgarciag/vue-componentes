@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue | Propiedades dinámicas</title>
+    <!-- Estilo -->
+    <style>
+        .boton {
+            background-color: purple;
+            color: white;
+            padding: 10px 30px;
+            display: block;
+            border-radius: 0 0 10px 0;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 1px goldenrod;
+            font-family: sans-serif;
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="app">
+
+        <boton v-for="boton in botones" :color="boton.color" :enlace="boton.enlace" :anchor-text="boton.anchorText"/>
+
+        <!--
+        <boton color="blue" enlace="www.google.com.ar" anchor-text="Google"></boton>
+        <boton color="red" enlace="www.facebook.com.ar" anchor-text="Facebook"></boton>
+        <boton color="violet" enlace="www.whatsapp.com" anchor-text="Whatsapp"></boton>
+        
+        <boton color="black" anchor-text="Otro enlace"></boton> 
+        -->
+
+        <!-- Al no especificar los valores de enlace toma el valor por defecto (props) -->
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script>
+        // Componente: Botón
+        Vue.component('boton', {
+            // Version matriz:
+            // props: ["color", "enlace", "anchorText"],
+
+            // Version objeto:
+            props: {
+                color: String,
+                enlace: {
+                    type: String,
+                    default: "https://www.google.com.ar",
+                },
+                anchorText: String,
+
+            },
+            template: `<a class="boton" :style="'background-color:' + color" :href="enlace">{{ anchorText }}</a>`,
+        })
+        
+
+        new Vue({
+            el: "#app",
+            data: {
+                botones: [
+                    {enlace: "www.google.com", anchorText: "Ir a Google", color: "red"},
+                    {enlace: "www.gmail.com", anchorText: "Ir a Gmail", color: "blue"},
+                    {enlace: "www.hotmail.com", anchorText: "Ir a Hotmail", color: "black"}
+                ]
+            }
+        });
+       
+       Vue.config.devtools = true;
+    </script>
+</body>
+</html>
+
+<!-- A través de las propiedades podemos crear componentes Vue.js que comparten la misma estructura (template) pero muestran diferente información (propiedades). https://vuejs.org/v2/guide/components.html#Passing-Data-to-Child-Components-with-Props -->
